@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const mainRoutes = require('../router/index');
 const authRoutes = require('../router/authRoutes');
-const adminRoutes = require('./router/adminRoutes');
+const adminRoutes = require('../router/adminRoutes');
 
 const port = 3000;
 
