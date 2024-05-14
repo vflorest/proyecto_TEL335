@@ -1,10 +1,17 @@
+
 const express = require('express');
 const app = express();
-const router = express.Router();
+const mainRoutes = require('../router/index');
+const authRoutes = require('../router/authRoutes');
+const adminRoutes = require('./router/adminRoutes');
 
 const port = 3000;
 
+app.use('/', mainRoutes);
+app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
+
 
 app.listen(port, function () {
-  console.log('Example app listening on port 3000!')
+  console.log(`Servidor corriendo en el puerto ${port}`);
 })
