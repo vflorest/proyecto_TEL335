@@ -33,10 +33,10 @@ module.exports = function(dbinyectada){
         }
 
         var respuesta2 = ''
-        if(body.usuario || body.password){
+        if(body.email || body.password){
             respuesta2 = await auth.agregar({
                 id:insertId,
-                usuario: body.usuario,
+                email: body.email,
                 password:  body.password
             })
         }
@@ -44,7 +44,6 @@ module.exports = function(dbinyectada){
     }
 
     function actualizar(body){
-        console.log(body);
         return db.actualizar(TABLA, body);
     }
     

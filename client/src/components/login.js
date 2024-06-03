@@ -1,22 +1,51 @@
 import React, { useState } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
     
-    const handleSignInClick = () => {
+    const handleSignInClick = async () => {
+        if (!validateEmail(email)) {
+            setError('Email no válido');
+            return;
+        }
         // Crear un objeto JSON con los valores de email y password
         const userData = {
           email: email,
           password: password
         };
+
+        try {
+            // Enviar una solicitud POST al backend
+            console.log('Enviando solicitud POST al backend...');
+            const response = await axios.post('http://localhost:3001/api/auth/login', userData);
+            console.log('Token:', response.data.token);
+            alert('Login correcto');
+            setError('');
+            // Guardar el token en el almacenamiento local o en un estado global
+            localStorage.setItem('token', response.data.token);
+            navigate('/Admin/home'); // Redirigir a la página home
+            
+        } catch (err) {
+            console.error('Error al iniciar sesión:', err);
+            alert('Credenciales incorrectas');
+        }   
     
-        // Convertir el objeto JSON a una cadena JSON
-        const jsonData = JSON.stringify(userData);
+        // // Convertir el objeto JSON a una cadena JSON
+        // const jsonData = JSON.stringify(userData);
     
-        // Aquí puedes hacer lo que quieras con los datos JSON, como enviarlos a un servidor, guardarlos en el almacenamiento local, etc.
-        console.log(jsonData);
+        // // Aquí puedes hacer lo que quieras con los datos JSON, como enviarlos a un servidor, guardarlos en el almacenamiento local, etc.
+        // console.log(jsonData);
     };
 
     return (
@@ -66,8 +95,8 @@ export default function Login(){
                     <p className="font-medium text-base">Don't have an account?</p>
                     <button className="text-violet-500 text-base font-medium ml-2">Sign up</button>
                 </div>
+                {error && <div className="mt-4 text-red-500">{error}</div>}
             </div>
-            <script src="./getLoginInfo.js"> </script>
         </div>
-    )
+    );
 }

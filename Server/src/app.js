@@ -1,6 +1,7 @@
-// import mysql from 'mysql2';
 const express = require('express');
 const config = require('./config');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 const clientes = require('./modulos/clientes/rutas')
@@ -11,8 +12,10 @@ const error = require('./red/errors');
 const morgan = require('morgan');
 
 //Middleware
+app.use(cors());
 app.use(morgan('dev'));
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 
 //config

@@ -54,8 +54,6 @@ function agregar(tabla, data){
 }
 
 function actualizar(tabla, data){
-    console.log('mysql');
-    console.log(data);
     return new Promise((resolve, reject) =>{
         conexion.query(`UPDATE ${tabla} SET? WHERE id = ?`, [data, data.id], (err, rows) => {
             return err? reject(err) : resolve(rows);

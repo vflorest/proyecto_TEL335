@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-config = require('../config');
+const config = require('../config');
+const error = require('../middleware/errors');
 
 const secret = config.jwt.secret;
 
@@ -11,31 +12,30 @@ function verificarToken(token){
     return jwt.verify(token, secret);
 }
 
-const checkToken = {
-    confirmarToken: function(req){
-        const decodificado = decodeHeader(req);
+const chequearToken = {
+    confirmarToken: function(req, id){
+        const decodificado = decodificarCabecera(req);
         
-        // if(decodificado.id !== id){
-        //     throw new Error('No puedes acceder a este recurso');
-        // }
+        if(decodificado.id !== id){
+            throw error('No tienes privilegios para acceder a este recurso', 401);
+        }
     }
 }
 
 function obtenerToken(authorization){
     if(!authorization){
-        throw new Error('No hay token en la cabecera');
+        throw error('No hay token en la cabecera', 401);
     }
 
     if(authorization.indexOf('Bearer') === -1){
-        throw new Error('Token no válido');
+        throw error('Token no válido', 401);
     }
 
-    let token = authorization.replace('Bearer', '');
+    let token = authorization.replace('Bearer ', '');
     return token;
 }
 
-function decodeHeader(req){
-    console.log(req.headers);
+function decodificarCabecera(req){
     const authorization = req.headers.authorization || '';
     const token = obtenerToken(authorization);
     const decodificado = verificarToken(token);
@@ -49,5 +49,5 @@ function decodeHeader(req){
 
 module.exports = {
     asignarToken,
-    checkToken,
+    chequearToken,
 }

@@ -10,13 +10,12 @@ module.exports = function(dbinyectada){
         db = require('../../DB/mysql');
     }
 
-    async function login(usuario, password){
+    async function login(email, password){
 
-        const data = await db.query(TABLA, {usuario: usuario});
+        const data = await db.query(TABLA, {email: email});
 
         return bcrypt.compare(password, data.password)
             .then(resultado =>{
-                console.log(resultado);
                 if(resultado === true){
                     return auth.asignarToken({...data});
                 }else{
@@ -26,14 +25,13 @@ module.exports = function(dbinyectada){
     }
 
     async function agregar(data){
-        console.log(data)
         const authData = {
             id: data.id
         }
         
 
-        if(data.usuario){
-            authData.usuario = data.usuario;
+        if(data.email){
+            authData.email = data.email;
         }
 
         if(data.password){

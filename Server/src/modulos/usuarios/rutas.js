@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.get('/', todos);
 router.get('/:id', uno);
-router.post('/', agregar);
-router.put('/', actualizar); 
-router.delete('/', eliminar); 
+router.post('/',  agregar);
+router.put('/', seguridad(), actualizar);
+router.delete('/', seguridad(), eliminar); 
 
 async function todos (req, res, next){
     try{
@@ -32,12 +32,12 @@ async function todos (req, res, next){
 }
 
 async function agregar(req, res, next){
-    try{
-        const items = await controlador.agregar(req.body);
+    try{ 
         if(req.body.id == 0){
+            const items = await controlador.agregar(req.body);
             mensaje = 'Item agregado satisfactoriamente';
         }else{
-            mensaje = 'Item actualizado satisfactoriamente';
+            mensaje = 'Id inválido';
         }
         respuesta.success(req, res, mensaje, 200);
     }catch(err){
@@ -48,9 +48,7 @@ async function agregar(req, res, next){
 async function actualizar(req, res, next){
     try{
         const id = req.body.id;
-        console.log(req.body)
         const items = await controlador.actualizar(req.body);
-        console.log('LLegó el id: '+id);
         if(req.body.id == 0){
             mensaje = 'Item actualizado satisfactoriamente';
         }else{
@@ -65,7 +63,7 @@ async function actualizar(req, res, next){
 
 async function eliminar(req, res, next){
     try{
-        const respuesta = await controlador.eliminar(req.body);
+        const items = await controlador.eliminar(req.body);
         respuesta.success(req, res, 'Item eliminado satisfactoriamente', 200);
     }catch(err){
         next(err);
