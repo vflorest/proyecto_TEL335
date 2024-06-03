@@ -1,0 +1,10 @@
+[
+  {
+    "id": 8,
+    "objectName": "New Object",
+    "foundPlace": "New Place",
+    "date": "2024-05-26",
+    "description": "A new object description.",
+    "imageURL": "http://example.com/newobject.jpg"
+  }
+]
