@@ -27,8 +27,6 @@ function conMysql(){
         }
     })
 }
-
-
 conMysql()
 
 function todos(tabla){
@@ -47,44 +45,47 @@ function uno(tabla, id){
     })
 }
 
-function insertar(tabla, data){
+function agregar(tabla, data){
     return new Promise((resolve, reject) =>{
-        conexion.query(`INSERT INTO ${tabla} SET ?`, data, (err, rows) => {
+        conexion.query(`INSERT INTO ${tabla} SET ? ON DUPLICATE KEY UPDATE ?`, [data,data], (err, rows) => {
             return err? reject(err) : resolve(rows);
         })
     })
-
 }
 
 function actualizar(tabla, data){
+    console.log('mysql');
+    console.log(data);
     return new Promise((resolve, reject) =>{
-        conexion.query(`UPDATE ${tabla} SET? WHERE id =?`, [data, data.id], (err, rows) => {
+        conexion.query(`UPDATE ${tabla} SET? WHERE id = ?`, [data, data.id], (err, rows) => {
             return err? reject(err) : resolve(rows);
         })
     })
 }
 
 
-function agregar(tabla, data){
-    if(data && data.id == 0){
-        return insertar(tabla, data);
-    }else{
-        return actualizar(tabla, data);
-    }
-}
-
 function eliminar(tabla, data){
     return new Promise((resolve, reject) =>{
-        conexion.query(`DELETE FROM ${tabla} WHERE id = ?}`, data.id, (err, rows) => {
+        conexion.query(`DELETE FROM ${tabla} WHERE id = ?`, data.id, (err, rows) => {
             return err ? reject(err) : resolve(rows);
         })
     })
 }
 
+function query(tabla, consulta){
+    return new Promise((resolve, reject) =>{
+        conexion.query(`SELECT * FROM ${tabla} WHERE ?`, consulta, (err, rows) => {
+            return err? reject(err) : resolve(rows[0]);
+        })
+    })
+
+}
 
 module.exports = {
     todos,
     uno,
     agregar,
-    eliminar
+    actualizar,
+    eliminar,
+    query
 }

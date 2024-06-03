@@ -34,13 +34,18 @@ module.exports = function(dbinyectada){
 
         var respuesta2 = ''
         if(body.usuario || body.password){
-            const respuesta2 = await auth.agregar({
+            respuesta2 = await auth.agregar({
                 id:insertId,
                 usuario: body.usuario,
                 password:  body.password
             })
         }
         return respuesta2;
+    }
+
+    function actualizar(body){
+        console.log(body);
+        return db.actualizar(TABLA, body);
     }
     
     function eliminar(body){
@@ -51,6 +56,7 @@ module.exports = function(dbinyectada){
         todos,
         uno,
         agregar,
+        actualizar,
         eliminar
     }
 }
