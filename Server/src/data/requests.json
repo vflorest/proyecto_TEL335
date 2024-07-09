@@ -1,0 +1,12 @@
+[
+    {
+      "id": 1,
+      "requesterName": "John Doe",
+      "description": "Lost ancient vase.",
+      "imageURL": "http://example.com/lostvase.jpg",
+      "lostPlace": "Greece",
+      "date": "2024-05-01",
+      "state": "open"
+    }
+  ]
+  
