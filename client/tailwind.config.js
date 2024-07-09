@@ -21,6 +21,11 @@ module.exports = {
       'gray-dark': '#273444',
       'gray': '#8492a6',
       'gray-light': '#d3dce6',
+      'red': '#FF6347', // Tomato
+      'indigo': '#4B0082', // Indigo
+      'gold': '#FFD700', // Gold
+      'teal': '#008080', // Teal
+      'skyblue': '#87CEEB', // SkyBlue
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],

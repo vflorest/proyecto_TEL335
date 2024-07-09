@@ -1,14 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import RegisterObjectForm from './components/admin/RegisterObject';
-import SeeListObjects from './components/admin/ObjectList';
-import Admin from './components/admin/Admin';
+
+
+import LayoutAdmin from './components/admin/LayoutAdmin';
 
 function App() {
   return (
     <Routes>
-      <Route path="/register-object" element={<RegisterObjectForm />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/see-list-objects" element={<SeeListObjects />} />
+      <Route path="/admin" element={<LayoutAdmin />} />
       {/* other routes... */}
     </Routes>
   );
