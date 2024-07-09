@@ -5,15 +5,26 @@ const {
     getObjectById,
     createObject,
     updateObject,
-    deleteObject
+    deleteObject,
+    uploadImage
 } = require('../../actions/object/object');
+
+
+router.post('/uploadObjectImage', async (req, res) => {
+    try {
+        await uploadImage(req, res);
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+
 
 router.get('/', (req, res) => {
     try {
         const objects = getAllObjects();
-        res.json(objects);
+        res.status(200).json(objects);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve objects.' });
+        res.status(500).json({ error: '500' });
     }
 });
 
@@ -23,19 +34,20 @@ router.get('/:id', (req, res) => {
         if (object) {
             res.json(object);
         } else {
-            res.status(404).json({ error: 'Object not found.' });
+            res.status(404).json({ error: 'Objeto no encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve object.' });
+        res.status(500).json({ error: '500' });
     }
 });
 
 router.post('/', (req, res) => {
     try {
+
         const newObject = createObject(req.body);
         res.status(201).json(newObject);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create object.' });
+        res.status(500).json({ error: 'Objeto no creado' });
     }
 });
 
@@ -48,7 +60,7 @@ router.put('/:id', (req, res) => {
             res.status(404).json({ error: 'Object not found.' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to update object.' });
+        res.status(500).json({ error: 'Objeto no actualizado' });
     }
 });
 
@@ -58,10 +70,10 @@ router.delete('/:id', (req, res) => {
         if (success) {
             res.status(204).end();
         } else {
-            res.status(404).json({ error: 'Object not found.' });
+            res.status(404).json({ error: 'Objeto no encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete object.' });
+        res.status(500).json({ error: 'Objeto no eliminado' });
     }
 });
 
